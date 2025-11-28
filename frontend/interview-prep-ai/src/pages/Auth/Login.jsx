@@ -11,6 +11,18 @@ const Login = ({setCurrentPage}) => {
 
   const handleLogin = async(e) => {
     e.preventDefault()
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.")
+      return
+    }
+
+    if (!password || password.length < 8) {
+      setError("Please enter a valid password with at least 8 characters.")
+      return
+    }
+
+    setError("")
   }
 
   return (
