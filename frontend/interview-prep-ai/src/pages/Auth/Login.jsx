@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Input from '../../components/inputs/Input'
+import { validateEmail } from '../../utils/helper'
 
 const Login = ({setCurrentPage}) => {
   const [email, setEmail] = useState("")
@@ -23,6 +24,17 @@ const Login = ({setCurrentPage}) => {
     }
 
     setError("")
+
+    // login API call
+    try {
+
+    } catch (err) {
+      if (err.response && err.response.data.message) {
+        setError(err.response.data.message)
+      } else {
+        setError("An error occurred during login. Please try again.")
+      }
+    }
   }
 
   return (
