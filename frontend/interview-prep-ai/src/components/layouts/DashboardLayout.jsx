@@ -7,7 +7,7 @@ const DashboardLayout = ({ children }) => {
     const { user } = useContext(UserContext);
 
     return (
-        <div>
+        <div className="bg-blue-300 min-h-screen">
             <Navbar />
 
             {user && <div>{children}</div>}
