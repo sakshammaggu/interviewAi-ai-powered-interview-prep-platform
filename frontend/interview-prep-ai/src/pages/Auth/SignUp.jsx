@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
 import Input from '../../components/inputs/Input'
 import ProfilePhotoSelector from '../../components/inputs/ProfilePhotoSelector'
+
 import { validateEmail } from '../../utils/helper'
+import { API_PATHS } from '../../utils/apiPath'
+import uploadImage from '../../utils/uploadImage'
+import axiosInstance from '../../utils/axiosInstance'
+
+import { UserContext } from '../../context/userContext'
 
 const SignUp = ({setCurrentPage}) => {
   const [profilePic, setProfilePic] = useState(null)
@@ -13,38 +20,58 @@ const SignUp = ({setCurrentPage}) => {
 
   const [error, setError] = useState(null)
 
-  const navigate = useNavigate()
+  const { updateUser } = useContext(UserContext)
+
+  const navigate = useNavigate();
 
   const handleSignUp = async(e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    let profileImageUrl = ""
+    let profileImageUrl = "";
     
     if (!fullName) {
-      setError("Please enter your full name.")
-      return
+      setError("Please enter your full name.");
+      return;
     }
 
     if (!validateEmail(email)) {
-      setError("Please enter a valid email address.")
-      return
+      setError("Please enter a valid email address.");
+      return;
     } 
 
     if (!password || password.length < 8) {
-      setError("Please enter a valid password with at least 8 characters.")
-      return
+      setError("Please enter a valid password with at least 8 characters.");
+      return;
     }
 
-    setError("")
+    setError("");
 
     // sign up API call
-    try {
+    try { 
+      // upload image if present
+      if (profilePic) {
+        const imgUploadRes = await uploadImage(profilePic);
+        profileImageUrl = imgUploadRes.imageUrl || "";
+      }
 
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        name: fullName,
+        email,
+        password,
+        profileImageUrl,
+      });
+
+      const { token } = response.data;
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(response.data);
+        navigate("/dashboard");
+      }
     } catch (err) {
       if (err.response && err.response.data.message) {
-        setError(err.response.data.message)
+        setError(err.response.data.message);
       } else {
-        setError("An error occurred during login. Please try again.")
+        setError("An error occurred during login. Please try again.");
       }
     }
   }
