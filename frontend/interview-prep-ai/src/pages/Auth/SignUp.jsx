@@ -12,7 +12,7 @@ import axiosInstance from '../../utils/axiosInstance'
 
 import { UserContext } from '../../context/userContext'
 
-const SignUp = ({setCurrentPage}) => {
+const SignUp = ({ setCurrentPage }) => {
   const [profilePic, setProfilePic] = useState(null)
   const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")
@@ -24,11 +24,11 @@ const SignUp = ({setCurrentPage}) => {
 
   const navigate = useNavigate();
 
-  const handleSignUp = async(e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
 
     let profileImageUrl = "";
-    
+
     if (!fullName) {
       setError("Please enter your full name.");
       return;
@@ -37,7 +37,7 @@ const SignUp = ({setCurrentPage}) => {
     if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
       return;
-    } 
+    }
 
     if (!password || password.length < 8) {
       setError("Please enter a valid password with at least 8 characters.");
@@ -47,7 +47,7 @@ const SignUp = ({setCurrentPage}) => {
     setError("");
 
     // sign up API call
-    try { 
+    try {
       // upload image if present
       if (profilePic) {
         const imgUploadRes = await uploadImage(profilePic);
@@ -89,21 +89,21 @@ const SignUp = ({setCurrentPage}) => {
         <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
           <Input
             value={fullName}
-            onChange={({target}) => setFullName(target.value)}
+            onChange={({ target }) => setFullName(target.value)}
             label="Full Name"
             placeholder="John Doe"
             type="text"
           />
           <Input
             value={email}
-            onChange={({target}) => setEmail(target.value)}
+            onChange={({ target }) => setEmail(target.value)}
             label="Email Address"
             placeholder="john.doe@example.com"
             type="email"
           />
           <Input
             value={password}
-            onChange={({target}) => setPassword(target.value)}
+            onChange={({ target }) => setPassword(target.value)}
             label="Password"
             placeholder="Enter your password"
             type="password"
@@ -121,6 +121,7 @@ const SignUp = ({setCurrentPage}) => {
         <p className="text-[13px] text-slate-800 mt-3">
           Already have an account?{" "}
           <button
+            type="button"
             className="font-medium text-primary underline cursor-pointer"
             onClick={() => {
               setCurrentPage("login");

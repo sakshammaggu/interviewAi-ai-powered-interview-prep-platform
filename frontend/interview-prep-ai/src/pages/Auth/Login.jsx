@@ -9,7 +9,7 @@ import axiosInstance from '../../utils/axiosInstance'
 
 import { UserContext } from '../../context/userContext'
 
-const Login = ({setCurrentPage}) => {
+const Login = ({ setCurrentPage }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState(null)
@@ -18,7 +18,7 @@ const Login = ({setCurrentPage}) => {
 
   const navigate = useNavigate()
 
-  const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
 
     if (!validateEmail(email)) {
@@ -39,7 +39,7 @@ const Login = ({setCurrentPage}) => {
         email,
         password,
       });
-      
+
       const { token } = response.data;
       if (token) {
         localStorage.setItem("token", token);
@@ -65,7 +65,7 @@ const Login = ({setCurrentPage}) => {
       <form onSubmit={handleLogin}>
         <Input
           value={email}
-          onChange={({target}) => setEmail(target.value)}
+          onChange={({ target }) => setEmail(target.value)}
           label="Email Address"
           placeholder="abc@example.com"
           type="text"
@@ -73,13 +73,13 @@ const Login = ({setCurrentPage}) => {
 
         <Input
           value={password}
-          onChange={({target}) => setPassword(target.value)}
+          onChange={({ target }) => setPassword(target.value)}
           label="Password"
           placeholder="Min 8 characters"
           type="password"
         />
 
-        {error && <p className="text-red-500 text-xs pb-2.5">{error}</p> }
+        {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
 
         <button
           type="submit"
@@ -91,6 +91,7 @@ const Login = ({setCurrentPage}) => {
         <p className="text-[13px] text-slate-800 mt-3">
           Don’t have an account?{" "}
           <button
+            type="button"
             className="font-medium text-primary underline cursor-pointer"
             onClick={() => {
               setCurrentPage("signup");

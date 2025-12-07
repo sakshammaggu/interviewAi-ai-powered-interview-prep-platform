@@ -19,7 +19,7 @@ const ProfilePhotoSelector = ({
             if (setPreview) {
                 setPreview(preview)
             }
-            setPreviewUrl(previewUrl)
+            setPreviewUrl(preview)
         }
     }
 

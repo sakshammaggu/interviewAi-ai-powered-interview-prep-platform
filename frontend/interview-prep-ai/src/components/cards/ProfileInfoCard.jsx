@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { UserContext } from '../../context/userContext';
+import { getInitials } from '../../utils/helper';
 
 const ProfileInfoCard = () => {
     const { user, clearUser } = useContext(UserContext);
@@ -16,12 +16,18 @@ const ProfileInfoCard = () => {
     return (
         user && (
             <div className='flex items-center'>
-                <img 
-                    src={user.profileImageUrl}
-                    alt=""
-                    className='w-11 h-11 bg-gray-300 rounded-full mr-3'
-                />
-                
+                {user.profileImageUrl ? (
+                    <img
+                        src={user.profileImageUrl}
+                        alt="Profile"
+                        className='w-11 h-11 bg-gray-300 rounded-full mr-3 object-cover'
+                    />
+                ) : (
+                    <div className='w-11 h-11 bg-gray-300 rounded-full mr-3 flex items-center justify-center text-lg font-bold text-gray-700'>
+                        {getInitials(user.name)}
+                    </div>
+                )}
+
                 <div>
                     <div className="text-[15px] text-black leading-3">
                         {user.name || ""}
